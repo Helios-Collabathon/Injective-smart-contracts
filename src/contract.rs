@@ -1,4 +1,3 @@
-use crate::chain::Chain;
 use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 use crate::persona::Persona;
 use crate::state::PERSONAS;
@@ -58,17 +57,6 @@ fn add_wallet(
         .eq(&wallet.clone().get_address())
     {
         return Err(ContractError::CannotAddOwnAddressAsLinkedAddress);
-    }
-
-    if wallet.clone().get_chain() == Chain::Injective {
-        let adrr = deps
-            .api
-            .addr_validate(wallet.clone().get_address().as_str())?;
-
-        let found = PERSONAS.load(deps.storage, adrr).is_ok();
-        if found {
-            return Err(ContractError::CannotAddAddressBecauseItHasAPersona);
-        }
     }
 
     let mut persona = PERSONAS

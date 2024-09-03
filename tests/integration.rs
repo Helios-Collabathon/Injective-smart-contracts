@@ -6,7 +6,6 @@ mod integration_tests {
     use inj_interchain_persona::msg::InstantiateMsg;
 
     const OWNER: &str = "admin0001";
-    const OWNER2: &str = "admin0002";
 
     fn mock_app() -> App {
         App::default()
@@ -71,46 +70,6 @@ mod integration_tests {
                     }
                 ]
             );
-        }
-
-        #[test]
-        fn cannot_add_wallet_to_persona_if_it_has_a_persona() {
-            let mut app = mock_app();
-
-            let persona_addr = instantiate_interchain_persona(&mut app);
-
-            let add_wallet_msg = ExecuteMsg::AddWallet {
-                wallet: Wallet::new(
-                    Chain::Injective,
-                    "cosmwasm1mzdhwvvh22wrt07w59wxyd58822qavwkx5lcej7aqfkpqqlhaqfsgn6fq2"
-                        .to_string(),
-                ),
-            };
-
-            let addr = app.api().addr_make(OWNER);
-
-            app.execute_contract(
-                Addr::unchecked(addr.clone()),
-                persona_addr.clone(),
-                &add_wallet_msg,
-                &[],
-            )
-            .unwrap();
-
-            let add_wallet_msg = ExecuteMsg::AddWallet {
-                wallet: Wallet::new(Chain::Injective, addr.to_string()),
-            };
-
-            let another_addr = app.api().addr_make(OWNER2);
-
-            let app_response = app.execute_contract(
-                Addr::unchecked(another_addr),
-                persona_addr.clone(),
-                &add_wallet_msg,
-                &[],
-            );
-
-            assert!(app_response.is_err());
         }
     }
 }
