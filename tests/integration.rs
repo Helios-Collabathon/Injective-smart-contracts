@@ -48,7 +48,7 @@ mod integration_tests {
             )
             .unwrap();
 
-        return (app, app_response, persona_addr);
+        (app, app_response, persona_addr)
     }
 
     mod personas_tests {

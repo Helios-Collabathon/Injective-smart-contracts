@@ -8,4 +8,7 @@ pub enum ContractError {
 
     #[error("Cannot add own address as linked address")]
     CannotAddOwnAddressAsLinkedAddress,
+
+    #[error("Cannot add address because it is already linked address")]
+    CannotAddAddressBecauseItIsAlreadyLinked,
 }
