@@ -8,7 +8,7 @@ import { Coin } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { toUtf8 } from "@cosmjs/encoding";
-import { InstantiateMsg, ExecuteMsg, Chain, Wallet, QueryMsg } from "./InjectiveInterchainPersona.types";
+import { InstantiateMsg, ExecuteMsg, Chain, Wallet, QueryMsg, Addr, Persona, ArrayOfAddr } from "./InjectiveInterchainPersona.types";
 export interface InjectiveInterchainPersonaMsg {
   contractAddress: string;
   sender: string;

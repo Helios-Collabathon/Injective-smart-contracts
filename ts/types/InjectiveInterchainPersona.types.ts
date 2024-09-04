@@ -19,4 +19,17 @@ export interface Wallet {
   address: string;
   chain: Chain;
 }
-export type QueryMsg = string;
+export type QueryMsg = {
+  get_persona: {
+    address: Addr;
+  };
+} | {
+  get_persona_from_linked_wallet: {
+    wallet: Wallet;
+  };
+};
+export type Addr = string;
+export interface Persona {
+  linked_wallets: Wallet[];
+}
+export type ArrayOfAddr = Addr[];

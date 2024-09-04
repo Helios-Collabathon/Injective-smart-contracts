@@ -6,9 +6,19 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, ExecuteMsg, Chain, Wallet, QueryMsg } from "./InjectiveInterchainPersona.types";
+import { InstantiateMsg, ExecuteMsg, Chain, Wallet, QueryMsg, Addr, Persona, ArrayOfAddr } from "./InjectiveInterchainPersona.types";
 export interface InjectiveInterchainPersonaReadOnlyInterface {
   contractAddress: string;
+  getPersona: ({
+    address
+  }: {
+    address: Addr;
+  }) => Promise<Persona>;
+  getPersonaFromLinkedWallet: ({
+    wallet
+  }: {
+    wallet: Wallet;
+  }) => Promise<ArrayOfAddr>;
 }
 export class InjectiveInterchainPersonaQueryClient implements InjectiveInterchainPersonaReadOnlyInterface {
   client: CosmWasmClient;
@@ -16,7 +26,31 @@ export class InjectiveInterchainPersonaQueryClient implements InjectiveInterchai
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
+    this.getPersona = this.getPersona.bind(this);
+    this.getPersonaFromLinkedWallet = this.getPersonaFromLinkedWallet.bind(this);
   }
+  getPersona = async ({
+    address
+  }: {
+    address: Addr;
+  }): Promise<Persona> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      get_persona: {
+        address
+      }
+    });
+  };
+  getPersonaFromLinkedWallet = async ({
+    wallet
+  }: {
+    wallet: Wallet;
+  }): Promise<ArrayOfAddr> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      get_persona_from_linked_wallet: {
+        wallet
+      }
+    });
+  };
 }
 export interface InjectiveInterchainPersonaInterface extends InjectiveInterchainPersonaReadOnlyInterface {
   contractAddress: string;
