@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Persona",
+  "type": "object",
+  "required": [
+    "linked_wallets"
+  ],
+  "properties": {
+    "linked_wallets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Wallet"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Chain": {
+      "type": "string",
+      "enum": [
+        "injective",
+        "multivers_x"
+      ]
+    },
+    "Wallet": {
+      "type": "object",
+      "required": [
+        "address",
+        "chain"
+      ],
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "chain": {
+          "$ref": "#/definitions/Chain"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

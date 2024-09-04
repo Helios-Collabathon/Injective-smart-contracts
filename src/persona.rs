@@ -20,6 +20,10 @@ impl Persona {
         self.linked_wallets.retain(|x| !x.eq(&wallet));
     }
 
+    pub fn get_linked_wallets(&self) -> &Vec<Wallet> {
+        &self.linked_wallets
+    }
+
     pub(crate) fn to_json(&self) -> impl Into<String> {
         serde_json::to_string_pretty(&self).unwrap()
     }

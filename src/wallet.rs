@@ -20,4 +20,10 @@ impl Wallet {
     pub fn get_address(self) -> String {
         self.address
     }
+
+    pub fn get_id(self) -> String {
+        let mut id: String = self.chain.to_string();
+        id.push_str(&self.address);
+        id
+    }
 }
