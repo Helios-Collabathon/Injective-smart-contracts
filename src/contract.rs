@@ -85,21 +85,27 @@ fn remove_wallet(
     info: MessageInfo,
     wallet: Wallet,
 ) -> Result<Response, ContractError> {
-    let mut persona = PERSONAS
-        .load(deps.storage, info.sender.clone())
-        .unwrap_or(Persona::new(vec![]));
+    let mut persona = match PERSONAS.load(deps.storage, info.sender.clone()) {
+        Ok(persona) => persona,
+        Err(_) => return Err(ContractError::CannotDeleteAddressBecausePersonaIsNotFound),
+    };
+
+    let mut linked_addresses = match PERSONA_LOOKUP.load(deps.storage, wallet.clone().get_id()) {
+        Ok(linked_addresses) => linked_addresses,
+        Err(_) => {
+            return Err(ContractError::CannotDeleteAddressBecausePersonaDoesNotHaveLinkedWallets)
+        }
+    };
+
+    if !linked_addresses.contains(&info.sender.clone()) {
+        return Err(ContractError::CannotDeleteAddressBecausePersonaIsNotLinked);
+    }
 
     persona.remove_wallet(wallet.clone());
 
-    let mut addresses = PERSONA_LOOKUP
-        .load(deps.storage, wallet.clone().get_id())
-        .unwrap_or_default();
+    linked_addresses.retain(|x| !x.eq(&info.sender.clone()));
 
-    if addresses.contains(&info.sender.clone()) {
-        addresses.retain(|x| !x.eq(&info.sender.clone()));
-    }
-
-    PERSONA_LOOKUP.save(deps.storage, wallet.clone().get_id(), &addresses)?;
+    PERSONA_LOOKUP.save(deps.storage, wallet.clone().get_id(), &linked_addresses)?;
     PERSONAS.save(deps.storage, info.sender.clone(), &persona)?;
 
     Ok(Response::new()

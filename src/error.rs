@@ -11,4 +11,13 @@ pub enum ContractError {
 
     #[error("Cannot add address because it is already linked address")]
     CannotAddAddressBecauseItIsAlreadyLinked,
+
+    #[error("Cannot delete address because persona does not exist")]
+    CannotDeleteAddressBecausePersonaIsNotFound,
+
+    #[error("Cannot delete address because persona does not have linked wallets")]
+    CannotDeleteAddressBecausePersonaDoesNotHaveLinkedWallets,
+
+    #[error("Cannot delete address because persona is not linked")]
+    CannotDeleteAddressBecausePersonaIsNotLinked,
 }

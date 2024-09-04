@@ -54,7 +54,7 @@ yes 1234567890 | injectived tx wasm store /var/artifacts/inj_interchain_persona.
 --yes --gas-prices=500000000inj --gas=20000000 \
 --node=https://testnet.sentry.tm.injective.network:443
 ```
-store txhash eg. EA96A10E5987E90C0F738B3403731275B1F2A315E3080D287B77A0D385B3905E
+store txhash eg. 5B549A1CA77B125CF2EEFFB624647A7E9A22F5585D9366D0D3D1BB2923417108
 
 ### 5. Get the wasm contract CODE ID
 
@@ -63,11 +63,11 @@ store txhash eg. EA96A10E5987E90C0F738B3403731275B1F2A315E3080D287B77A0D385B3905
 search in the output for:
 
 key: code_id
-value: '"12430"'
+value: '"12431"'
 
 store them inside "injective-core-v1.13.2" container:
 
-```export CODE_ID=12430```
+```export CODE_ID=12431```
 
 ### 6. Instantiate the contract
 ```yes | apt install jq```
@@ -81,6 +81,3 @@ Execute inside "injective-core-v1.13.2" container to get contract address:
 ```export CONTRACT=$(injectived query wasm list-contract-by-code $CODE_ID --node=https://testnet.sentry.tm.injective.network:443 --output json | jq -r '.contracts[-1]')```
 
 ```injectived query wasm contract $CONTRACT --node=https://testnet.sentry.tm.injective.network:443```
-
-Get the contract address from the response and store it:
-```export CONTRACT_ADDRESS="inj1t7nl9rfwqnhxtkykuwa74e8xzg3q3ru9hyumsj"```
