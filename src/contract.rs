@@ -35,7 +35,7 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::AddWallet { wallet } => add_wallet(_deps, _env, _info, wallet),
-        ExecuteMsg::RemoveWallet {} => remove_wallet(_deps, _env, _info),
+        ExecuteMsg::RemoveWallet { wallet } => remove_wallet(_deps, _env, _info, wallet),
     }
 }
 
@@ -72,6 +72,21 @@ fn add_wallet(
         .add_attribute("persona", persona.to_json()))
 }
 
-fn remove_wallet(_deps: DepsMut, _env: Env, _info: MessageInfo) -> Result<Response, ContractError> {
-    todo!()
+fn remove_wallet(
+    deps: DepsMut,
+    _env: Env,
+    info: MessageInfo,
+    wallet: Wallet,
+) -> Result<Response, ContractError> {
+    let mut persona = PERSONAS
+        .load(deps.storage, info.sender.clone())
+        .unwrap_or(Persona::new(vec![]));
+
+    persona.remove_wallet(wallet.clone());
+
+    PERSONAS.save(deps.storage, info.sender.clone(), &persona)?;
+
+    Ok(Response::new()
+        .add_attribute("action", "remove_persona")
+        .add_attribute("persona", persona.to_json()))
 }

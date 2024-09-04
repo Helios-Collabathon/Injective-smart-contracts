@@ -71,5 +71,62 @@ mod integration_tests {
                 ]
             );
         }
+
+        #[test]
+        fn remove_wallet_from_persona() {
+            let mut app = mock_app();
+
+            let persona_addr = instantiate_interchain_persona(&mut app);
+
+            let add_wallet_msg = ExecuteMsg::AddWallet {
+                wallet: Wallet::new(
+                    Chain::Injective,
+                    "cosmwasm1mzdhwvvh22wrt07w59wxyd58822qavwkx5lcej7aqfkpqqlhaqfsgn6fq2"
+                        .to_string(),
+                ),
+            };
+
+            app.execute_contract(
+                Addr::unchecked(OWNER),
+                persona_addr.clone(),
+                &add_wallet_msg,
+                &[],
+            )
+            .unwrap();
+
+            let remove_wallet_msg = ExecuteMsg::RemoveWallet {
+                wallet: Wallet::new(
+                    Chain::Injective,
+                    "cosmwasm1mzdhwvvh22wrt07w59wxyd58822qavwkx5lcej7aqfkpqqlhaqfsgn6fq2"
+                        .to_string(),
+                ),
+            };
+
+            let remove_app_response = app
+                .execute_contract(
+                    Addr::unchecked(OWNER),
+                    persona_addr.clone(),
+                    &remove_wallet_msg,
+                    &[],
+                )
+                .unwrap();
+
+            assert_eq!(
+                remove_app_response.custom_attrs(1),
+                [
+                    Attribute {
+                        key: "action".to_string(),
+                        value: "remove_persona".to_string()
+                    },
+                    Attribute {
+                        key: "persona".to_string(),
+                        value: r#"{
+  "linked_wallets": []
+}"#
+                        .to_string()
+                    }
+                ]
+            );
+        }
     }
 }

@@ -1,5 +1,6 @@
 use crate::wallet::Wallet;
 use cosmwasm_schema::cw_serde;
+use std::cmp::PartialEq;
 
 #[cw_serde]
 pub struct Persona {
@@ -13,6 +14,10 @@ impl Persona {
 
     pub fn add_wallet(&mut self, wallet: Wallet) {
         self.linked_wallets.push(wallet)
+    }
+
+    pub fn remove_wallet(&mut self, wallet: Wallet) {
+        self.linked_wallets.retain(|x| !x.eq(&wallet));
     }
 
     pub(crate) fn to_json(&self) -> impl Into<String> {

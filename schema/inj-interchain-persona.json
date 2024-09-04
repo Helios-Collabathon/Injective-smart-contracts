@@ -41,6 +41,14 @@
         "properties": {
           "remove_wallet": {
             "type": "object",
+            "required": [
+              "wallet"
+            ],
+            "properties": {
+              "wallet": {
+                "$ref": "#/definitions/Wallet"
+              }
+            },
             "additionalProperties": false
           }
         },

@@ -7,7 +7,7 @@ pub struct InstantiateMsg {}
 #[cw_serde]
 pub enum ExecuteMsg {
     AddWallet { wallet: Wallet },
-    RemoveWallet {},
+    RemoveWallet { wallet: Wallet },
 }
 
 #[cw_serde]
