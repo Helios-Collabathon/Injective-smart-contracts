@@ -30,6 +30,7 @@ export type QueryMsg = {
 };
 export type Addr = string;
 export interface Persona {
+  address: Addr;
   linked_wallets: Wallet[];
 }
 export type ArrayOfAddr = Addr[];

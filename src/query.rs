@@ -18,8 +18,8 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
 
 fn get_persona(deps: Deps, address: Addr) -> StdResult<Persona> {
     Ok(PERSONAS
-        .load(deps.storage, address)
-        .unwrap_or(Persona::new(vec![])))
+        .load(deps.storage, address.clone())
+        .unwrap_or(Persona::new(address.clone(), vec![])))
 }
 
 fn get_persona_by_linked_wallet(deps: Deps, wallet: Wallet) -> StdResult<Vec<Persona>> {

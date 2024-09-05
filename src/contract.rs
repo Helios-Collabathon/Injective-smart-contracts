@@ -1,4 +1,4 @@
-use crate::msg::{ExecuteMsg, InstantiateMsg};
+use crate::msg::{ExecuteMsg, InstantiateMsg, MigrateMsg};
 use crate::persona::Persona;
 use crate::state::{PERSONAS, PERSONA_LOOKUP};
 use crate::wallet::Wallet;
@@ -6,6 +6,7 @@ use crate::ContractError;
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
 use cosmwasm_std::{DepsMut, Env, MessageInfo, Response};
+use cw2::ensure_from_older_version;
 
 const CONTRACT_NAME: &str = "crates.io:inj-interchain-persona";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -56,7 +57,7 @@ fn add_wallet(
 
     let mut persona = PERSONAS
         .load(deps.storage, info.sender.clone())
-        .unwrap_or(Persona::new(vec![]));
+        .unwrap_or(Persona::new(info.sender.clone(), vec![]));
 
     if persona.get_linked_wallets().contains(&wallet) {
         return Err(ContractError::CannotAddAddressBecauseItIsAlreadyLinked);
@@ -111,4 +112,10 @@ fn remove_wallet(
     Ok(Response::new()
         .add_attribute("action", "remove_persona")
         .add_attribute("persona", persona.to_json()))
+}
+
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn migrate(deps: DepsMut, _env: Env, _msg: MigrateMsg) -> Result<Response, ContractError> {
+    ensure_from_older_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+    Ok(Response::default())
 }
