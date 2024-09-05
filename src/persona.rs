@@ -1,15 +1,20 @@
 use crate::wallet::Wallet;
 use cosmwasm_schema::cw_serde;
+use cosmwasm_std::Addr;
 use std::cmp::PartialEq;
 
 #[cw_serde]
 pub struct Persona {
+    addr: Addr,
     linked_wallets: Vec<Wallet>,
 }
 
 impl Persona {
-    pub fn new(linked_wallets: Vec<Wallet>) -> Self {
-        Persona { linked_wallets }
+    pub fn new(addr: Addr, linked_wallets: Vec<Wallet>) -> Self {
+        Persona {
+            addr,
+            linked_wallets,
+        }
     }
 
     pub fn add_wallet(&mut self, wallet: Wallet) {

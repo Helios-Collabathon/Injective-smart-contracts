@@ -56,7 +56,7 @@ fn add_wallet(
 
     let mut persona = PERSONAS
         .load(deps.storage, info.sender.clone())
-        .unwrap_or(Persona::new(vec![]));
+        .unwrap_or(Persona::new(info.sender.clone(), vec![]));
 
     if persona.get_linked_wallets().contains(&wallet) {
         return Err(ContractError::CannotAddAddressBecauseItIsAlreadyLinked);

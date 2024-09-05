@@ -65,10 +65,14 @@ mod integration_tests {
             let action_attr = app_response.custom_attrs(1)[0].clone();
             let persona_attr = app_response.custom_attrs(1)[1].clone();
 
-            let expected_persona = Persona::new(vec![Wallet::new(
-                Chain::Injective,
-                "cosmwasm1mzdhwvvh22wrt07w59wxyd58822qavwkx5lcej7aqfkpqqlhaqfsgn6fq2".to_string(),
-            )]);
+            let expected_persona = Persona::new(
+                Addr::unchecked(OWNER),
+                vec![Wallet::new(
+                    Chain::Injective,
+                    "cosmwasm1mzdhwvvh22wrt07w59wxyd58822qavwkx5lcej7aqfkpqqlhaqfsgn6fq2"
+                        .to_string(),
+                )],
+            );
 
             assert_eq!(action_attr.key, "action");
             assert_eq!(action_attr.value, "add_persona");
@@ -122,7 +126,7 @@ mod integration_tests {
             let action_attr = remove_app_response.custom_attrs(1)[0].clone();
             let persona_attr = remove_app_response.custom_attrs(1)[1].clone();
 
-            let expected_persona = Persona::new(vec![]);
+            let expected_persona = Persona::new(Addr::unchecked(OWNER), vec![]);
 
             assert_eq!(action_attr.key, "action");
             assert_eq!(action_attr.value, "remove_persona");
