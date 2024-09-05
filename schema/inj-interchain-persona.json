@@ -166,11 +166,11 @@
       "title": "Persona",
       "type": "object",
       "required": [
-        "addr",
+        "address",
         "linked_wallets"
       ],
       "properties": {
-        "addr": {
+        "address": {
           "$ref": "#/definitions/Addr"
         },
         "linked_wallets": {

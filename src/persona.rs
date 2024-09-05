@@ -5,14 +5,14 @@ use std::cmp::PartialEq;
 
 #[cw_serde]
 pub struct Persona {
-    addr: Addr,
+    address: Addr,
     linked_wallets: Vec<Wallet>,
 }
 
 impl Persona {
-    pub fn new(addr: Addr, linked_wallets: Vec<Wallet>) -> Self {
+    pub fn new(address: Addr, linked_wallets: Vec<Wallet>) -> Self {
         Persona {
-            addr,
+            address,
             linked_wallets,
         }
     }
