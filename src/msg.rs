@@ -1,4 +1,4 @@
-use crate::{persona::Persona, wallet::Wallet};
+use crate::wallet::Wallet;
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Addr;
 
@@ -14,7 +14,7 @@ pub enum ExecuteMsg {
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum QueryMsg {
-    #[returns(Persona)]
+    #[returns(crate::persona::Persona)]
     GetPersona { address: Addr },
 
     #[returns(Vec<Addr>)]

@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@cosmjs/amino": "0.29.5",
-    "@cosmjs/cosmwasm-stargate": "^0.32.4",
     "@cosmjs/encoding": "0.29.5",
     "@cosmjs/proto-signing": "^0.32.4",
     "@cosmwasm/ts-codegen": "^1.11.1",
