@@ -20,3 +20,7 @@ pub enum QueryMsg {
     #[returns(Vec<Addr>)]
     GetPersonaFromLinkedWallet { wallet: Wallet },
 }
+
+#[cw_serde]
+#[cfg_attr(feature = "interface", derive(cw_orch::MigrateFns))]
+pub enum MigrateMsg {}
