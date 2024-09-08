@@ -1,11 +1,18 @@
 # Injective-smart-contracts
 
+The `inj-interchain-persona` smart contract is designed for integration with **Helios Connect**, enabling advanced cross-chain identity management. This decentralized contract allows users to link their wallets from multiple blockchain ecosystems, starting with Injective and MultiversX, under a single unified persona. It ensures secure, transparent, and efficient management of cross-chain identities.
 
+## Features
+- **Cross-Chain Identity Linking**: Seamlessly link wallets from various blockchains under a single persona.
+- **Decentralized**: Ensures security, privacy, and transparency through a fully decentralized architecture.
+- **Modular Design**: Built to be modular, making it easy to extend and adapt with future blockchain integrations and functionalities.
+- **Open-Source**: The code is publicly available, fostering community collaboration and contributions.
 
-
-
+![Software architecture](https://github.com/Helios-Collabathon/Injective-smart-contracts/blob/main/software_architecture.drawio.png?raw=true)
 
 ## Usage of the contracts
+
+The `inj-interchain-persona` smart contract is intended for use in Helios Connect and similar applications requiring cross-chain identity management. Its modular nature allows for straightforward integration and customization for future blockchain ecosystems and new features.
 
 ### 1. Compile CosmWasm Contracts
 
